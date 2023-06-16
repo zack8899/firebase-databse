@@ -83,7 +83,7 @@ button[type="submit"]:hover {
     <script type="module">
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
-        import { getDatabase,ref , push } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
+        import { getDatabase,ref , push ,onValue,set } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
 
         // TODO: Add SDKs for Firebase products that you want to use
         // https://firebase.google.com/docs/web/setup#available-libraries
@@ -122,24 +122,38 @@ form.addEventListener('submit', (event) => {
   const feedback = document.getElementById('feedback').value;
   const data = { 
 
-    Name : name,
+};
+// const dbref = ref(database, 'users');
+
+//   push(dbref, data);
+
+  const inserData = () =>{
+    set(ref(database , 'users/'+ name),{
+      Name : name,
     Email: email,
     Age: age,
     Gender: gender,
     Feed: feedback 
+    }).then(
+      alert('success!')
+    )
+  }
+
+  inserData()
 
 
-};
-const dbref = ref(database, 'users/'+name);
 
-  push(dbref, data);
 form.reset()
   // Send the JSON data to a server using fetch or XMLHttpRequest
 });
 
 
+function displayData(){
+  const dbref = ref(database, 'users');
 
 
+}
+displayData()
 
 
 
