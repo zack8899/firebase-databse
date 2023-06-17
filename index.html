@@ -4,78 +4,62 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> real-time database test </title>
-
-<style>
-    form {
-  max-width: 500px;
-  margin: 0 auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-h1 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-label {
-  display: block;
-  margin-bottom: 10px;
-}
-
-input[type="text"],
-input[type="email"],
-input[type="number"],
-select,
-textarea {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  margin-bottom: 20px;
-  box-sizing: border-box;
-}
-
-button[type="submit"] {
-  background-color: #4CAF50;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-button[type="submit"]:hover {
-  background-color: #3e8e41;
-}
-</style>
+<!-- Boxicons CSS -->
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<link rel="stylesheet" href="/app.css">
 </head>
 <body>
-    
-    <form id="survey-form">
-        <h1>Survey</h1>
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required>
-      
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
-      
-        <label for="age">Age:</label>
-        <input type="number" id="age" name="age" min="18" max="100" required>
-      
-        <label for="gender">Gender:</label>
-        <select id="gender" name="gender" required>
-          <option value="">Select gender</option>
-          <option value="male">Male</option>
-          <option value="female">Female</option>
-        </select>
-      
-        <label for="feedback">Feedback:</label>
-        <textarea id="feedback" name="feedback" required></textarea>
-      
-        <button type="submit">Submit</button>
-      </form>
+
+
+
+  <div class="reg-data-form">
+    <form action="">
+
+      <input type="text" name="username" id="username"   placeholder="Enter unique username like zack_rd0">
+      <button type="submit">Create account</button>
+    </form>
+  </div>
+
+
+
+
+
+
+
+
+
+<div class="add-post">
+  <i class='bx bxs-add-to-queue'></i>
+</div>
+
+<div class="post-data-form hide">
+
+  <form action="">
+    <p class="close"><i class='bx bx-exit'></i></p>
+    <input type="text" name="title" id="title" placeholder="Title of the post">
+    <textarea name="content" id="content" cols="30" rows="10" placeholder="say what you want!"></textarea>
+  <button type="submit">Post conent</button>
+  </form>
+
+
+</div>
+
+
+<div class="posts">
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
 
 
 
@@ -83,7 +67,7 @@ button[type="submit"]:hover {
     <script type="module">
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
-        import { getDatabase,ref , push ,onValue,set } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
+        import { getDatabase,ref , push ,onValue,set,get,child } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
 
         // TODO: Add SDKs for Firebase products that you want to use
         // https://firebase.google.com/docs/web/setup#available-libraries
@@ -111,32 +95,39 @@ console.log(database);
 
 
 
-const form = document.getElementById('survey-form');
+const form = document.querySelector('.post-data-form form');
 
 form.addEventListener('submit', (event) => {
   event.preventDefault();
-  const name = document.getElementById('name').value;
-  const email = document.getElementById('email').value;
-  const age = document.getElementById('age').value;
-  const gender = document.getElementById('gender').value;
-  const feedback = document.getElementById('feedback').value;
-  const data = { 
+  const title = form.querySelector('#title').value;
+  const cont = form.querySelector('#content').value
+  const date = new Date();
+  const name = localStorage.getItem('Name');
 
-};
+  const now = new Date();
+const year = now.getFullYear();
+const month = now.getMonth() + 1;
+const day = now.getDate();
+const hours = now.getHours();
+const minutes = now.getMinutes();
+const seconds = now.getSeconds();
+console.log(`${year}-${month}-${day} ${hours}:${minutes}:${seconds}`);
 // const dbref = ref(database, 'users');
 
 //   push(dbref, data);
 
   const inserData = () =>{
-    set(ref(database , 'users/'+ name),{
-      Name : name,
-    Email: email,
-    Age: age,
-    Gender: gender,
-    Feed: feedback 
+    set(ref(database , 'posts/'+ name),{
+      title: title,
+      content : cont,
+      date : ` ${hours}:${minutes}:${seconds}  ${year}-${month}-${day}`,
+      name : name
     }).then(
-      alert('success!')
+
     )
+
+
+    displayData();
   }
 
   inserData()
@@ -149,17 +140,78 @@ form.reset()
 
 
 function displayData(){
-  const dbref = ref(database, 'users');
+  const dbref = ref(database)
 
+  get(child(dbref , 'posts/')).then(snapshot =>{
+
+    let data = [];
+
+    snapshot.forEach(childSnapshot => {
+      data.push(childSnapshot.val())
+    
+    });
+    getExtractData(data)
+  })
 
 }
-displayData()
+displayData();
+
+function getExtractData(data){
+  document.querySelector('.posts').innerHTML = '';
+  data.forEach(userData=>{
+    const datePosted = new Date(userData.date);
+    const now = new Date();
+    const timeDiff = now - datePosted;
+    const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((timeDiff / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((timeDiff / (1000 * 60)) % 60);
+    const seconds = Math.floor((timeDiff / 1000) % 60);
+    let timeAgo = '';
+    if (days > 0) {
+      timeAgo = `${days} day${days > 1? '' : ''} ago`;
+    } else if (hours > 0) {
+      timeAgo = `${hours} hour${hours > 1? '' : ''} ago`;
+    } else if (minutes > 0) {
+      timeAgo = `${minutes} minute${minutes > 1? '' : ''} ago`;
+    } else {
+      timeAgo = `${seconds} second${seconds > 1? '' : ''} ago`;
+    }
+    console.log(`Date posted: ${datePosted.toLocaleString()}`);
+    console.log(`Time ago: ${timeAgo}`);
+    console.log(userData);
+ 
+let post =     `  <div class="post">
+
+<div class="username">
+  
+  <p class="name"><i class='bx bx-user-pin'></i>${userData.name}</p>
+
+
+  <p class="time">posted : ${timeAgo} ago</p>
+
+</div>
+<div class="head">
+
+  <h2 class="titee">${userData.title}</h2>
+</div>
+<p class="content">${userData.content}</p>
+<div class="reactions">
+<i class='bx bx-like'></i>
+<i class='bx bx-chat'></i>
+<i class='bx bx-share'></i>
+</div>   
+</div>
+`
+ document.querySelector('.posts').innerHTML+=post
+ 
+  })
+}
 
 
 
 </script>
       
     
-    
+    <script src="/app.js"></script>
 </body>
 </html>

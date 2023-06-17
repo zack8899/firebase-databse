@@ -1,0 +1,167 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;0,1000;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900;1,1000&family=Permanent+Marker&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;1,100;1,300;1,400;1,500&display=swap');
+
+
+*{
+    font-family: 'Nunito', sans-serif;
+    margin: 0;padding: 0;
+    scroll-behavior: smooth;
+    box-sizing: border-box;
+    transition: 0.2s linear;
+}
+
+body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100vh;
+    background: blueviolet;
+    flex-direction: column;
+    overflow: hidden;
+
+}
+
+.posts{
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 15px;
+    height: 100%;
+    overflow-y: scroll;
+    width: 100%;
+    align-items: center;
+    margin-top: 50px;
+}
+
+.posts::-webkit-scrollbar {
+    /* width: 7px;
+    height: 7px; */
+    display: none;
+  }
+  
+/* .posts::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+    border-radius: 5px;
+  }
+  
+.posts::-webkit-scrollbar-thumb {
+    background-color: gray;
+    border-radius: 5px;
+  } */
+
+
+.post{
+    background: #fff;
+    width: 30rem;
+    max-width: 100%;
+    padding: 15px;
+    border-radius: 11px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.post .username {
+    display: flex;align-items: center;justify-content: space-between;
+
+}
+
+.post .username p.name{
+    font-size: 1.1rem;color: gray;
+
+}
+
+.post .username p.time{
+color: gray;
+
+}
+
+
+.post .content{
+    color: #333;
+}
+
+.post .reactions{
+    display: flex;
+    gap: 30px;
+    font-size: 1.3rem;
+}
+
+.post .reactions i{
+  cursor: pointer;  
+}
+
+
+
+
+.add-post{
+    background: #fff;
+    padding: 20px;
+    color: blueviolet;
+    font-size: 1.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    border: 2px solid blueviolet;
+}
+
+
+
+
+.post-data-form , .reg-data-form{
+    position: absolute;
+    width: 100%;
+    padding: 20px;
+    background: rgb(0, 0, 0,0.5);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.post-data-form.hide , .reg-data-form.hide{
+    transform: scale(0.0);
+}
+
+.post-data-form form , .reg-data-form form{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 30rem;
+    max-width: 100%;
+    background: #fff;
+    gap: 10px;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+
+.post-data-form input ,textarea , .reg-data-form input {
+    padding: 10px;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+    border: 2px solid blueviolet;
+    resize: none;
+}
+
+.post-data-form button , .reg-data-form button{
+    padding: 10px;
+    border: none;
+    background: blueviolet;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+.post-data-form .close{
+    font-size: 1.7rem;
+    color: blueviolet;
+    cursor: pointer;
+}
