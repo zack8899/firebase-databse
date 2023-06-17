@@ -156,7 +156,6 @@ function displayData(){
   })
 
 }
-displayData();
 
 function getExtractData(data){
   document.querySelector('.posts').innerHTML = '';
@@ -189,7 +188,7 @@ let post =     `  <div class="post">
   <p class="name"><i class='bx bx-user-pin'></i>${userData.name}</p>
 
 
-  <p class="time">posted : ${timeAgo} ago</p>
+  <p class="time">posted : ${timeAgo}</p>
 
 </div>
 <div class="head">
@@ -209,7 +208,9 @@ let post =     `  <div class="post">
   })
 }
 
-
+window.onload = ()=>{
+  displayData();
+}
 
 </script>
       
