@@ -181,7 +181,12 @@ function getExtractData(data){
     console.log(`Time ago: ${timeAgo}`);
     console.log(userData);
  
-let post =     `  <div class="post">
+
+    function getRandomNumber() {
+  return Math.floor(Math.random() * 21) + 1;
+}
+
+    let post =     `  <div class="post">
 
 <div class="username">
   
@@ -197,14 +202,30 @@ let post =     `  <div class="post">
 </div>
 <p class="content">${userData.content}</p>
 <div class="reactions">
-<i class='bx bx-like'></i>
+  <p><i class='bx bx-like'></i><p class='num-likes'> ${getRandomNumber()}</p></p>
 <i class='bx bx-chat'></i>
 <i class='bx bx-share'></i>
 </div>   
 </div>
 `
  document.querySelector('.posts').innerHTML+=post
- 
+ const like = document.querySelectorAll('.post .reactions .bx-like')
+console.log(like)
+
+like.forEach(like =>{
+  like.onclick = ()=>{
+
+    // const num = parseInt(like.parentElement.querySelector('.num-likes').textContent) || 0;
+    // like.parentElement.querySelector('.num-likes').textContent = num + 1;
+       if (like.classList.contains('bx-like')){
+      like.classList.replace('bx-like' , 'bxs-like')
+  
+    }
+    else{
+      like.classList.replace('bxs-like' , 'bx-like')
+    }
+  }
+})
   })
 }
 
